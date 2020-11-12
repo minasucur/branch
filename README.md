@@ -2,20 +2,22 @@
 
 ## Overview
 
-The purpose of this API is to get user data from the Github API and display that data in a format that is useful for the client. If the client accesses the designated endpoint with an existing Github username, the API will return a JSON with select descriptive information about that user as well as a list of repos under that username. If the username does not exist in Github, the API will return a JSON object with a message key that says "User Not Found." Further information on how to use the API and design choices will be discussed below.
+The purpose of this API is to get user data from the Github API and display the data in a format that is useful for the client. If the client accesses the designated endpoint with an existing Github username, the API will return a JSON with select descriptive information about that user as well as a list of repos under that username. If the username does not exist in Github, the API will return a JSON object with a message that says "User Not Found." Additional information on how to use the API and design choices will be discussed below.
 
 ## Steps to run API locally
 
-*These steps will only work if python3 is installed on your machine. If it is not, please refer to this [documentation on installing python3](https://realpython.com/installing-python/).*
+*These steps will only work if python3 and git are installed on your machine. If they are not, please refer to this [documentation on installing python3](https://realpython.com/installing-python/) and this [page to download git](https://git-scm.com/downloads).*
+
+*These are bash instructions. If you do not have bash on your system, you may need to install Linux shell or look up further instructions.*
 
 1. Create a python3 virtual environment and activate it
 
 	```
-	$ python3 -m venv /path/to/new/virtual/environment
-	$ source <venv-path>/bin/activate
+	$ python3 -m venv <path-to-virtual-env>
+	$ source <path-to-virtual-env>/bin/activate
 	```
 	
-	*Note: When the virutal envrionment is activated properly, it should appear on your command line prompt in paranthesis at the beginning.*
+	*Note: When the virutal envrionment is activated properly, it should appear on your command line prompt in paranthesis before the command prompt like this: `(venv)<path-and-user-info>$`*
 
 2. Install flask in the virtualenv
 
@@ -23,7 +25,7 @@ The purpose of this API is to get user data from the Github API and display that
 	$ pip install flask
 	```
 
-3. Install requests library in the virtualenv:
+3. Install requests library in the virtualenv
 
 	```
 	$ pip install requests
@@ -40,7 +42,7 @@ The purpose of this API is to get user data from the Github API and display that
 	First go into the repo folder then run:
 
 	```
-	$ export FLASK_APP=github_api.py
+	$ export FLASK_APP=branch_api.py
 	$ flask run
 	```
 	
