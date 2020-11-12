@@ -23,8 +23,9 @@ def user(username):
         repos_data = requests.get(github_repo_api).json()
     except HTTPError:
         return jsonify(message="User Not Found")
-    if user_data["message"] == "Not Found" or repos_data["message"] == "Not Found":
-        return jsonify(message="User Not Found")
+    if "message" in user_data or "message" in repos_data:
+        if user_data["message"] == "Not Found" or repos_data["message"] == "Not Found":
+            return jsonify(message="User Not Found")
     repos = []
     for repo in repos_data:
         repos.append({"name": repo["name"], "url": repo["html_url"]})
