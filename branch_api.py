@@ -1,5 +1,4 @@
 import flask
-import json
 import os
 import requests
 
@@ -7,7 +6,6 @@ from flask import Flask
 from flask import jsonify
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
 app.config['JSON_SORT_KEYS'] = False
 
 @app.route('/users/<username>', methods=['GET'])
@@ -24,7 +22,9 @@ def user(username):
         user_data = requests.get(github_user_api).json()
         repos_data = requests.get(github_repo_api).json()
     except HTTPError:
-        return "The user you are looking for does not exist."
+        return jsonify(message="User Not Found")
+    if user_data["message"] == "Not Found" or repos_data["message"] == "Not Found":
+        return jsonify(message="User Not Found")
     repos = []
     for repo in repos_data:
         repos.append({"name": repo["name"], "url": repo["html_url"]})
