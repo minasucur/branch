@@ -67,7 +67,7 @@ The purpose of this API is to get user data from the Github API and display the 
 Python is a high-level and flexible coding language that can be used for many purposes such as this API and there are extensive libraries and frameworks. However, I ultimately chose python because it is the language I am most comfortable with at this time.
 
 ### Flask
-Flask is a Python micro-framework used to build APIs. It is a good choice for the base of this API because it's simple to use and gives you complete flexibility on how to build your application. Alot can be accomplished with Flask with not many lines of code, so it makes the code very easy to understand and use. Routing to specific endpoints within the app takes only one line of code and you can work with variables very easily as well. Also, running the code itself is super quick and simple.
+Flask is a Python micro-framework used to build APIs. It is a good choice for the base of this API because it's simple to use and gives complete flexibility on how to build an application. A lot can be accomplished with Flask with little code, so it makes the code very easy to understand and use. Routing to specific endpoints within the app takes only one line of code and allows one to work with variables very easily. Also, running the code itself is super quick and simple.
 
 ### Requests library
 The python requests libary is a great choice for gathering data from an existing API. I decided to use this library to access the Github API and get the user JSONs needed to create this application for Branch. The requests library allows you to access a JSON response like a dictionary structure, making it very easy to manipulate.
@@ -75,11 +75,17 @@ The python requests libary is a great choice for gathering data from an existing
 ### Disabling JSON\_SORT_KEYS in Flask configuration
 I decided to disable JSON key sorting in this app to maintain the ordering of the JSON keys that the client is requesting in the example. Without this line, keys in the final JSON will be in alphabetical order.
 
+### Replacing backslashes
+After testing the code in a Windows environment, I noticed that os.path.join added backslashes instead of forward slashes. Instead of doing string concatenation, I stuck with the os.path.join and added the replacing of backslashes with forward slashes to mitigate this issue.
+
 ### Check for existing user
-I added two checks for bad input within the API code. One is checking for a successful HTTP request to the Github API. This check is just for extra precaution in case of any HTTP Errors. However, when a user does not exist, it seems that the Github API returns a JSON with a message element stating "Not Found." So to account for this, I added a simple conditional to check whether either python request returns a message of "Not Found." 
+I added two checks for bad input within the API code. One is checking for a successful HTTP request to the Github API. This check is just for extra precaution in case of any HTTP Errors. However, when a user does not exist, it seems that the Github API returns a JSON with a message element stating "Not Found." So to account for this, I added a simple conditional statement to check whether either of the python requests returns a "Not Found" message.
 
 ### Formatting the creation date
-To correct the formatting of the `created_at` date to match what the client is requesting in the example, I simply got rid of the `Z` and `T` elements in the date string. I chose to do it this way instead of using the datetime library, because it only requires getting rid of characters and not rearranging or adding characters, so it was the most simple way to accomplish this.
+To correct the formatting of the `created_at` date to match what the client is requesting in the example, I simply got rid of the `Z` and `T` elements in the date string. I chose to do it this way instead of using the datetime library, because it only requires getting rid of characters and not changing format, so it was the most simple way to accomplish this.
 
 ### Jsonify
 Jsonify is a function that is part of the Flask framework. It simply creates a JSON object out of the elements passed to it with the proper headers.
+
+### Unit Tests
+I decided the python builtin unittest library was the best choice to test the API. Although there is one function in the API, it needs to be tested for existing and non-existing users, so there are three unit tests for full coverage. The requests mock library is also used so that the tests do not make real calls to the Github API. To run the unittests, you should have `pytest` installed and run `pytest tests/test_branch_api.py` from the root directory of the repo.
