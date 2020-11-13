@@ -147,13 +147,19 @@ REPOS_NOT_FOUND_DATA = {
 class TestBranchApi(unittest.TestCase):
 
     def setUp(self):
+        """Runs before every unit test"""
+
         app.config['TESTING'] = True
         self.client = app.test_client()
 
     def tearDown(self):
+        """Runs after every unit test"""
+
         pass
 
     def test_user(self):
+        """Tests user endpoint for an existing Github user"""
+
         with requests_mock.Mocker() as m:
             m.get("https://api.github.com/users/minasucur", status_code=200, text=json.dumps(USER_DATA))
             m.get("https://api.github.com/users/minasucur/repos", status_code=200, text=json.dumps(REPOS_DATA))
@@ -179,6 +185,8 @@ class TestBranchApi(unittest.TestCase):
             self.assertEqual(client_data, expected_data)
 
     def test_user_not_found(self):
+        """Tests user endpoint for a user that does not exist in Github"""
+
         with requests_mock.Mocker() as m:
             m.get("https://api.github.com/users/this-is-a-non-existent-user", status_code=200, text=json.dumps(USER_NOT_FOUND_DATA))
             m.get("https://api.github.com/users/this-is-a-non-existent-user/repos", status_code=200, text=json.dumps(REPOS_NOT_FOUND_DATA))
