@@ -39,7 +39,7 @@ The purpose of this API is to get user data from the Github API and display the 
 	
 5. Run the API with flask
 
-	First go into the repo folder then run:
+	First go into the branch folder in the repo then run:
 
 	```
 	$ export FLASK_APP=branch_api.py
@@ -49,7 +49,7 @@ The purpose of this API is to get user data from the Github API and display the 
 	This should give you a message that looks something like this:
 	
 	```
-	 * Serving Flask app "github_api.py"
+	 * Serving Flask app "branch_api.py"
 	 * Environment: production
 	   WARNING: This is a development server. Do not use it in a production deployment.
 	   Use a production WSGI server instead.
