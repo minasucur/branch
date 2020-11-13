@@ -1,4 +1,5 @@
 import flask
+import json
 import os
 import requests
 
@@ -8,6 +9,7 @@ from flask import jsonify
 app = flask.Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
+
 @app.route('/users/<username>', methods=['GET'])
 def user(username):
     """Pull user data from github api and return JSON with client data
@@ -16,13 +18,13 @@ def user(username):
     :return: JSON object with client data
 
     """
-    github_user_api = os.path.join("https://api.github.com/users", username)
-    github_repo_api = os.path.join(github_user_api, "repos")
+    github_user_api = os.path.join("https://api.github.com/users", username).replace("\\","/")
+    github_repo_api = os.path.join(github_user_api, "repos").replace("\\","/")
     try:
-        user_data = requests.get(github_user_api).json()
-        repos_data = requests.get(github_repo_api).json()
-    except HTTPError:
-        return jsonify(message="User Not Found")
+        user_data = json.loads(requests.get(github_user_api).text)
+        repos_data = json.loads(requests.get(github_repo_api).text)
+    except requests.exceptions.RequestException:
+        return jsonify(message="Error when getting user data")
     if "message" in user_data or "message" in repos_data:
         if user_data["message"] == "Not Found" or repos_data["message"] == "Not Found":
             return jsonify(message="User Not Found")
@@ -41,3 +43,7 @@ def user(username):
                     repos=repos
                    )
     return client_data
+
+
+if __name__ == "__main__":
+    app.run()

@@ -79,7 +79,7 @@ I decided to disable JSON key sorting in this app to maintain the ordering of th
 After testing the code in a Windows environment, I noticed that os.path.join added backslashes instead of forward slashes. Instead of doing string concatenation, I stuck with the os.path.join and added the replacing of backslashes with forward slashes to mitigate this issue.
 
 ### Check for existing user
-I added two checks for bad input within the API code. One is checking for a successful HTTP request to the Github API. This check is just for extra precaution in case of any HTTP Errors. However, when a user does not exist, it seems that the Github API returns a JSON with a message element stating "Not Found." So to account for this, I added a simple conditional statement to check whether either of the python requests returns a "Not Found" message.
+I added two checks for bad input within the API code. One is checking for a successful HTTP request to the Github API. This check is just for extra precaution in case of any request errors. However, when a user does not exist, it seems that the Github API returns a JSON with a message element stating "Not Found." So to account for this, I added a simple conditional statement to check whether either of the python requests returns a "Not Found" message.
 
 ### Formatting the creation date
 To correct the formatting of the `created_at` date to match what the client is requesting in the example, I simply got rid of the `Z` and `T` elements in the date string. I chose to do it this way instead of using the datetime library, because it only requires getting rid of characters and not changing format, so it was the most simple way to accomplish this.
@@ -88,4 +88,4 @@ To correct the formatting of the `created_at` date to match what the client is r
 Jsonify is a function that is part of the Flask framework. It simply creates a JSON object out of the elements passed to it with the proper headers.
 
 ### Unit Tests
-I decided the python builtin unittest library was the best choice to test the API. Although there is one function in the API, it needs to be tested for existing and non-existing users, so there are three unit tests for full coverage. The requests mock library is also used so that the tests do not make real calls to the Github API. To run the unittests, you should have `pytest` installed and run `pytest tests/test_branch_api.py` from the root directory of the repo.
+I decided the python builtin unittest library was the best choice to test the API. Although there is one function in the API, it needs to be tested for existing and non-existing users, so there are two unit tests. The requests mock library is also used so that the tests do not make real calls to the Github API. To run the unittests, you should have `pytest` installed and run `pytest tests/test_branch_api.py` from the root directory of the repo.
